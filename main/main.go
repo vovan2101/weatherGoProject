@@ -37,6 +37,7 @@ type WeatherResponse struct {
 	} `json:"weather"`
 }
 
+// Главная функция для ввода от пользователя и обработки его ответа
 func userInput() {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Ask a weather-related question:")
@@ -63,6 +64,7 @@ func userInput() {
 	fmt.Println(response)
 }
 
+// Передаём информацию о погоде данной функции, чтобы openAI сгенерировал коректный ответ для пользователя на основе его вопроса.
 func formulateResponseWithOpenAI(city, query string, weatherData WeatherResponse) (string, error) {
 	tempCelsius := weatherData.Main.Temp - 273.15
 	weatherDescription := "Unknown"
@@ -108,6 +110,7 @@ func formulateResponseWithOpenAI(city, query string, weatherData WeatherResponse
 	return "", fmt.Errorf("no content from openAI")
 }
 
+// Достаём город из вопроса пользователя, чтобы передать его openWeather api.
 func interpretQueryWithOpenAI(query string) (string, error) {
 
 	messages := []Message{
@@ -151,6 +154,7 @@ func interpretQueryWithOpenAI(query string) (string, error) {
 	return response.Choices[0].Message.Content, nil
 }
 
+// Получаем необходимые данные о погоде в городе пользователя.
 func getWeather(city string) (WeatherResponse, error) {
 	resp, err := http.Get(fmt.Sprintf("http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s", city, OPENWEATHER_API_KEY))
 	if err != nil {
