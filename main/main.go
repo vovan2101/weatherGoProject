@@ -10,11 +10,6 @@ import (
 	"strings"
 )
 
-const (
-	OPENWEATHER_API_KEY = "e466bef46d86e7b3c52399fa85c0e758"
-	OPENAI_API_KEY      = "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"
-)
-
 type Message struct {
 	Role    string `json:"role"`
 	Content string `json:"content"`
